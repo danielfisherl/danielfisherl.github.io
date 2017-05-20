@@ -1,0 +1,43 @@
+---
+title: Gender Gaps in Names
+author: ~
+date: '2017-05-20'
+slug: hello-world
+categories: []
+tags: []
+description: ''
+featured: ''
+featuredalt: ''
+featuredpath: ''
+linktitle: ''
+---
+
+# Loading data of names and gender share from the fivethirtyeight package
+
+```{r,message=F}
+library(fivethirtyeight)
+library(dplyr)
+library(ggplot2)
+library(plotly)
+df <- fivethirtyeight::unisex_names
+```
+
+# The gender gap as a function of name popularity 
+
+```{r, message=F, warning = F}
+plotly::ggplotly(
+df %>% 
+  tidyr::gather(key = gender_share, value = share,-name, -total, -gap ) %>% 
+  ggplot(aes( x = total, y = share, group = gender_share, color = gender_share))+geom_line()
+)
+```
+
+# Now with a smooth function 
+
+```{r,message=F, warning = F}
+plotly::ggplotly(
+df %>% 
+  tidyr::gather(key = gender_share, value = share,-name, -total, -gap ) %>% 
+  ggplot(aes( x = total, y = share, group = gender_share, color = gender_share))+geom_smooth())
+  
+```
